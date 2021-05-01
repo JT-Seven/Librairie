@@ -1,3 +1,7 @@
+<?php
+	require_once("cart.php");
+?>
+
 <html>
 <head>
        <title>La librairie d'In'Tech INFO</title>
@@ -5,7 +9,11 @@
 <body>
 
 <style>
-	
+	.forme {
+		float:left;
+		transform: translate(100%,-10%);
+		display:flex;
+	}
 </style>
 
 <table border="1" cellspacing="0" cellpadding="5px" width="100%"> <!-- Le tableau en lui meme qui sera afficher toutes au long de la naviguation du site -->
@@ -15,6 +23,17 @@
 			<p>
 				Nous sommes le <?php echo date("d/m/y"); ?> et il est <?php echo strftime("%H:%M:%S"); //Affochage de la date et l'heure actuelle ?><br/>				
 			</p>
+			<form class="forme" method="GET">
+				<input type="search" name="recherche" placeholder="Rechercher... ">
+				<br>
+				<input type="submit" value="Rechercher" name="search">
+				<select name='selection'>
+                    <option >Cd</option>
+                    <option >Dvd</option>
+                    <option >Livres</option>
+					<option value="all">Tous les articles</option>
+                </select>
+			</form>
 		</td>
 	</tr>
 	<tr>
@@ -28,7 +47,30 @@
 			<a href="index.php?action=debug.php"><?php echo ucfirst("debug"); ?></a><br/> <!-- La partie naviguation qui sera placé sur la gauche de notre librairie elle affichera suivant des lien "<a href>" nos fichier et leur contenu-->
 		</td>
 		<td>
-			<?php include($content_for_layout); //L'affichage de nos fichier suivant l'action qui aura été faites ?>	
+			<?php //L'affichage de nos fichier suivant l'action qui aura été faites 
+				
+				if(isset($_GET['search']))
+				{
+					if($_GET['selection'] == 'all')
+					{
+						header("Location: index.php?action=store.php");
+					}
+					if(isset($_GET['recherche']) && !empty($_GET['recherche']))
+					{
+						$recherche = htmlspecialchars($_GET["recherche"]);
+						search($recherche);
+					}
+					if(empty($_GET['recherche']) && isset($_GET['selection']))
+					{
+						$selection = $_GET["selection"];
+						search($selection);
+					}
+				}
+				else
+				{
+					include($content_for_layout);
+				}
+			?>	
 		</td>
 	</tr>
 </table>

@@ -35,21 +35,22 @@ CREATE TABLE IF NOT EXISTS `lignes_commandes` (
   `quantite` int DEFAULT NULL,
   `prix_facture` int DEFAULT NULL,
   `commandes_id_commande` int NOT NULL,
-  `livres_id_livres` int NOT NULL,
+  `Produit_id_livres` int NOT NULL,
   PRIMARY KEY (`id_lignes_commandes`),
   KEY `fk_lignes_commandes_commandes1` (`commandes_id_commande`),
-  KEY `fk_lignes_commandes_livres1` (`livres_id_livres`)
+  KEY `fk_lignes_commandes_Produit1` (`Produit_id_livres`)
 );
 
 
-DROP TABLE IF EXISTS `livres`;
-CREATE TABLE IF NOT EXISTS `livres` (
-  `id_livres` int NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `produit`;
+CREATE TABLE IF NOT EXISTS `produit` (
+  `id_produit` int NOT NULL AUTO_INCREMENT,
   `titre` varchar(30) DEFAULT NULL,
   `description` text,
   `prix` float(4,2) DEFAULT NULL,
+  `type_` enum('livres','cd','dvd') DEFAULT NULL,
   `autheurs_id_autheurs` int NOT NULL,
-  PRIMARY KEY (`id_livres`),
+  PRIMARY KEY (`id_produit`),
   KEY `fk_livres_autheurs1` (`autheurs_id_autheurs`)
 );
 

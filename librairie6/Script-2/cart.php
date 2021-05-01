@@ -77,11 +77,6 @@ function emptyCart()
 	session_write_close();
 }
 
-if ($_GET['action'] == 'supprimer')
-{
-	emptyCart();
-}
-
 
 function checkout($database, $nom, $email, $adresse, $date)
 {
@@ -124,6 +119,41 @@ function checkout($database, $nom, $email, $adresse, $date)
 			$id
 		]);
 	}
+}
+
+
+function search($recherche)
+{
+ 	$base = getPDO();
+ 	$produit = $base->query('SELECT produit.id_produit, produit.titre, produit.description, produit.prix, produit.type_ FROM produit ORDER BY id_produit ASC');
+ 	$produit = $base->query('SELECT produit.id_produit, produit.titre, produit.description, produit.prix, produit.type_ FROM produit WHERE CONCAT(titre,type_) LIKE "%'.$recherche.'%" ORDER BY id_produit ASC ');
+	
+ 	if($produit->rowCount() > 0)
+ 	{
+ 		while($resultat = $produit->fetch(PDO::FETCH_ASSOC))
+ 		{
+ 			echo "<table border='0' cellspacing='0' cellpadding='0'>
+ 					<style>
+ 						.images {
+ 							width: 200px;
+ 						}
+ 					</style>
+ 					<tr>
+ 						<td rowspan='3'><img class='images' src='img".'\\'.$resultat['id_produit'].".jpg'/></td>
+ 						<td><h2 style='margin: 0px;padding:0px'>".strtoupper($resultat['titre'])."</h2></td> 
+ 					</tr>
+ 					<tr>
+ 						<td><p>".$resultat['description']."</p></td>
+ 					</tr>
+ 					<tr>
+ 						<td><b>".$resultat['prix']."</b>&nbsp<a href=index.php?action=addToCart&id=".$resultat['id_produit'].">Ajouter au panier</a></td> 
+ 					</tr>
+ 				</table>";
+ 		}	
+ 	}
+ 	else {
+ 		echo 'Aucun résultat pour : '.$recherche;
+ 	}
 }
 
 

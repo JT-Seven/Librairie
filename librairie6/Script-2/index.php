@@ -1,4 +1,5 @@
 <?php 	
+require_once("cart.php");
 
 	if (isset($_GET["action"])) { //Si la superglobal '$_GET["action"]' est definie on execute tous ca;
 		switch ($_GET["action"]) { //On vas switcher entre les requetes qui se font via la superglobal '$_GET';
@@ -7,6 +8,9 @@
 				break;
 			case "debug.php":
 				$content_for_layout ="debug.php";
+				break;
+			case "store.php":
+				$content_for_layout ="store.php";
 				break;
 			case "index.php":
 				$content_for_layout ="store.php";
@@ -19,6 +23,7 @@
 				break;
 			case "supprimer":
 				$content_for_layout ="showcart.php";
+				emptyCart();
 				break;
 			case "retour":
 				$content_for_layout ="debug.php";

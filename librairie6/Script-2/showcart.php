@@ -1,7 +1,7 @@
 <?php
-
 require_once("cart.php");
 $cart = findCart();
+
 
 ?>
 <table border="1">
@@ -17,6 +17,7 @@ $cart = findCart();
             <td><?php echo $value['price']. " $";  ?></td> <td><?php echo ($value['quantity'] * $value['price']). " $"; ?></td>
         </tr>
     <?php } ?>
+    
         <tr>
             <td>TOTAL :</td>
             <td colspan="3"><?php echo cartTotalPrice(). " $"; //Total de tous les livres inscrit dans notre tableau ?></td> 
